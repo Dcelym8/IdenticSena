@@ -1,0 +1,122 @@
+
+.inicio-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.inicio-bienvenida-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px 30px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.inicio-saludo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 8px;
+}
+
+.inicio-saludo .destaque-verde {
+    color: #00875A;
+    text-transform: capitalize;
+}
+
+.inicio-subtexto {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+}
+
+
+.inicio-qr-card {
+    border: 2px dashed #00875A !important;
+    background: #fbfdfc !important;
+    text-align: center;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.qr-titulo-dashboard {
+    color: #00875A;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.qr-subtitulo-dashboard {
+    font-size: 13px;
+    color: #4a5568;
+    margin-bottom: 22px;
+    line-height: 1.4;
+}
+
+.qr-contenedor-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#codigo-qr-contenedor {
+    background: #ffffff;
+    padding: 14px;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+    min-width: 170px;
+    min-height: 170px;
+}
+
+/* Cronómetro */
+.cronometro-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #e6f3ed;
+    border: 1px solid #00875A;
+    color: #00875A;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.tiempo-texto {
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+.qr-nota-seguridad {
+    font-size: 11px;
+    color: #718096;
+    margin-top: 18px;
+    line-height: 1.3;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 576px) {
+    .inicio-wrapper {
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    .inicio-bienvenida-card {
+        padding: 18px 20px;
+    }
+
+    .inicio-saludo {
+        font-size: 18px;
+    }
+}

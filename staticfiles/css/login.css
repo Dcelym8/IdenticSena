@@ -1,0 +1,192 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+}
+
+.alert{
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    animation: aparecer 0.3s ease;
+}
+
+.alert-info{
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+}
+
+.alert-error{
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #ef4444;
+}
+
+@keyframes aparecer{
+    from{
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logoContainer {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#imageLogo {
+    max-width: 100%;
+    height: auto;
+    width: 410px; 
+    position: relative;
+    top: 30%;
+    z-index: -1;
+}
+
+.formContainer {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    box-sizing: border-box;
+
+    position: static;
+    bottom: auto;
+    margin: 0 auto;
+}
+
+.userContainer, .passwordContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: #f0f0f0; 
+    color: #333;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#submitButton {
+    width: 100%;
+    height: 40px;
+    background-color: #157c65;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#submitButton:hover {
+    background-color: #126352;
+}
+
+#orContainer {
+    display: flex;
+    align-items: center;
+    color: #888;
+    text-align: center;
+    margin: 20px 0;
+}
+
+#orContainer{
+    display: flex;
+    margin: 0 10px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+#orConector{
+    position: relative;
+    top: 8px;
+}
+
+.forgotpaswordContainer {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+#logoKey {
+    width: 17px;
+    height: auto;
+    fill: #157c65;
+    margin-right: 5px;
+}
+
+#forgotpasword, #visitor, #registro {
+    text-decoration: none;
+    color: #157c65;
+    font-size: 14px;
+}
+
+.formFooterContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.visitor {
+    display: block;
+}
+
+.noAcount {
+    display: block;
+}
+
+
+@media (max-width: 480px) {
+    .formContainer {
+        padding: 20px;
+    }
+    
+    #imageLogo {
+        width: 180px;
+    }
+
+    #orContainer {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    #orContainer #line {
+        display: none;
+    }
+
+    .formFooterContainer {
+        flex-direction: column;
+    }
+}
+
+
+@media (min-width: 769px) {
+    .formContainer {
+        width: 40%;
+    }
+}

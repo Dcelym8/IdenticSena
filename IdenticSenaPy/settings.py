@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os
 from pathlib import Path
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -124,9 +123,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# BASE_DIR ya apunta a la carpeta donde está 'static'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR / 'IdenticSenaPy' / 'static',  # Soporte para la estructura de carpeta anidada
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'

@@ -1,0 +1,52 @@
+:root {
+    --colorBlanco: #ffffff;
+    --colorTurquesa: #a4e1d1;
+    --colorVerdeClaro: #8dd9c6;
+    --colorVerde: #20a585;
+    --colorVerdePrincipal: #157c65;
+    --colorVerdeMuyOscuro: #0b4f3e;
+    --colorSuperOscuro: #003826;
+    --verdeHover: #1a8f72;
+    --verdeSuave: #e9faf5;
+    --verdeSuave2: #d6f5ec;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes aparecer{
+    from{
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert{
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    animation: aparecer 0.3s ease;
+}
+
+.alert-info{
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+}
+
+.alert-error{
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #ef4444;
+}

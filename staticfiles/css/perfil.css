@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7f5;
+    margin: 0;
+}
+
+.perfil-container {
+    width: 650px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.perfil-container h2 {
+    text-align: center;
+    color: #1b5e20;
+    margin-bottom: 25px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+input, select {
+    padding: 9px 10px;
+    border: 1px solid #c8e6c9;
+    border-radius: 7px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus {
+    border-color: #43a047;
+    box-shadow: 0 0 0 2px rgba(67,160,71,0.15);
+}
+
+button {
+    margin-top: 22px;
+    width: 100%;
+    padding: 11px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.logout{
+    display: inline-block;
+    margin-top: 14px;
+    text-decoration: none;
+    color: #b91c1c;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.logout:hover{
+    color: #ef4444;
+    transform: translateY(-1px);
+}
+
+button:hover {
+    background: #1b5e20;
+}
+
+@media (max-width: 700px) {
+    .perfil-container {
+        width: 90%;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Estilos para el contenedor del botón y el temporizador QR */
+#contenedor-qr-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.cronometro-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.icono-cronometro {
+    color: #00875A;
+    margin-bottom: 4px;
+    animation: pulso-suave 2s infinite ease-in-out;
+}
+
+.tiempo-texto {
+    font-size: 16px;
+    font-weight: 700;
+    color: #00875A;
+    font-family: monospace, sans-serif;
+    letter-spacing: 1px;
+}
+
+@keyframes pulso-suave {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
