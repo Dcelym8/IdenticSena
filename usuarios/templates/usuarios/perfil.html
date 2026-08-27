@@ -1,0 +1,305 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil — Identic SENA</title>
+    <link rel="stylesheet" href="{% static 'css/mainConfig.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+</head>
+<body>
+
+<div class="dash-layout">
+
+    <aside class="dash-sidebar">
+        <div class="dash-brand">
+            <img src="{% static 'img/identic_sena 2-largo.png' %}" alt="Identic SENA" class="dash-logo">
+        </div>
+
+<nav class="dash-nav">
+        <a href="{% url 'inicio' %}" class="dash-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+            </svg>
+            Inicio
+
+            <a href="{% url 'perfil' %}" class="dash-nav-item dash-nav-item--activo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Mi Perfil
+            </a>
+
+            <a href="{% url 'gestionar_equipos' %}" class="dash-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                Mis Equipos
+            </a>
+        </nav>
+
+        <div class="dash-sidebar-footer">
+            <div class="dash-user-info">
+                <div class="dash-avatar">{{ user.nombre|first|upper }}{{ user.apellido|first|upper }}</div>
+                <div>
+                    <div class="dash-user-nombre">{{ user.nombre }} {{ user.apellido }}</div>
+                    <div class="dash-user-rol">{{ user.email }}</div>
+                </div>
+            </div>
+            <a href="{% url 'logout' %}" class="dash-logout">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Cerrar sesión
+            </a>
+        </div>
+    </aside>
+
+    <div class="dash-main">
+        <header class="dash-topbar">
+            <div class="flex-header-perfil">
+                <div>
+                    <h1 class="dash-topbar-titulo">Configuración de Perfil</h1>
+                    <span class="dash-topbar-sub">Centro de Servicios Financieres — SENA</span>
+                </div>
+                
+                <div class="perfil-ficha-badge">
+                    <span class="ficha-label">Ficha</span>
+                    {% if user.fichas.exists %}
+                        <span class="ficha-valor">{{ user.fichas.first.codigo }}</span>
+                    {% else %}
+                        <span class="ficha-valor ficha-valor--vacio">Sin asignar</span>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <main class="dash-contenido">
+            
+            <form action="{% url 'perfil' %}" method="POST" class="grid-perfil-layout">
+                {% csrf_token %}
+
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h2 class="dash-card-titulo" style="color: #00875A; margin-bottom: 20px;">Datos Personales</h2>
+                    </div>
+                    
+                    <div class="grid-formulario-campos">
+                        <div class="form-grupo">
+                            <label class="form-label">Tipo documento</label>
+                            <select name="tipoDocumento" class="dash-input">
+                                <option value="cc" {% if user.tipoDocumento == 'cc' or estudiante.tipoDocumento == 'cc' %}selected{% endif %}>Cédula de Ciudadanía</option>
+                                <option value="ti" {% if user.tipoDocumento == 'ti' or estudiante.tipoDocumento == 'ti' %}selected{% endif %}>Tarjeta de Identidad</option>
+                                <option value="ce" {% if user.tipoDocumento == 'ce' or estudiante.tipoDocumento == 'ce' %}selected{% endif %}>Cédula de Extranjería</option>
+                                <option value="pp" {% if user.tipoDocumento == 'pp' or estudiante.tipoDocumento == 'pp' %}selected{% endif %}>Pasaporte</option>
+                            </select>
+                        </div>
+
+                        <div class="form-grupo">
+                            <label class="form-label" for="{{ form.numeroDocumento.id_for_label }}">Número documento</label>
+                            <input type="text" name="{{ form.numeroDocumento.html_name|default:'numeroDocumento' }}" id="{{ form.numeroDocumento.id_for_label|default:'id_numeroDocumento' }}" class="dash-input" value="{{ user.numeroDocumento|default:'' }}">
+                        </div>
+
+                        <div class="form-grupo">
+                            <label class="form-label" for="{{ form.nombre.id_for_label }}">Nombre(s)</label>
+                            <input type="text" name="{{ form.nombre.html_name|default:'nombre' }}" id="{{ form.nombre.id_for_label|default:'id_nombre' }}" class="dash-input" value="{{ user.nombre|default:'' }}">
+                        </div>
+
+                        <div class="form-grupo">
+                            <label class="form-label" for="{{ form.apellido.id_for_label }}">Apellido(s)</label>
+                            <input type="text" name="{{ form.apellido.html_name|default:'apellido' }}" id="{{ form.apellido.id_for_label|default:'id_apellido' }}" class="dash-input" value="{{ user.apellido|default:'' }}">
+                        </div>
+
+                        <div class="form-grupo">
+                            <label class="form-label" for="{{ form.email.id_for_label }}">Correo Electrónico</label>
+                            <input type="email" name="{{ form.email.html_name|default:'email' }}" id="{{ form.email.id_for_label|default:'id_email' }}" class="dash-input" value="{{ user.email|default:'' }}">
+                        </div>
+
+                        <div class="form-grupo">
+                            <label class="form-label" for="{{ form.telefono.id_for_label }}">Teléfono Celular</label>
+                            <input type="text" name="{{ form.telefono.html_name|default:'telefono' }}" id="{{ form.telefono.id_for_label|default:'id_telefono' }}" class="dash-input" value="{{ user.telefono|default:'' }}">
+                        </div>
+
+                        <div class="form-grupo full-width">
+                            <label class="form-label" for="{{ form.edad.id_for_label }}">Edad</label>
+                            <input type="number" name="{{ form.edad.html_name|default:'edad' }}" id="{{ form.edad.id_for_label|default:'id_edad' }}" class="dash-input" value="{{ user.edad|default:'' }}">
+                        </div>
+
+                        <div class="form-grupo">
+                            <label class="form-label" for="{{ form.contrasena.id_for_label }}">Nueva contraseña</label>
+                            <input type="password" name="{{ form.contrasena.html_name|default:'contrasena' }}" id="{{ form.contrasena.id_for_label|default:'id_contrasena' }}" class="dash-input" placeholder="Dejar vacío para mantener actual">
+                        </div>
+
+                        <div class="form-grupo">
+                            <label class="form-label" for="{{ form.confirmarContrasena.id_for_label }}">Confirmar contraseña</label>
+                            <input type="password" name="{{ form.confirmarContrasena.html_name|default:'confirmarContrasena' }}" id="{{ form.confirmarContrasena.id_for_label|default:'id_confirmarContrasena' }}" class="dash-input" placeholder="Repita la nueva contraseña">
+                        </div>
+                    </div>
+
+                    <div class="perfil-form-footer">
+                        <button type="submit" class="dash-btn dash-btn--verde" style="padding: 12px 30px;">Actualizar Información</button>
+                    </div>
+                </div>
+            </form>
+
+        </main>
+    </div>
+</div>
+
+<style>
+.flex-header-perfil {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.perfil-ficha-badge {
+    background: #e6f3ed;
+    border: 1px solid #00875A;
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.ficha-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #555;
+    font-weight: bold;
+}
+.ficha-valor {
+    font-size: 18px;
+    font-weight: 800;
+    color: #00875A;
+}
+.ficha-valor--vacio {
+    color: #999;
+    font-size: 14px;
+}
+.grid-perfil-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    align-items: start;
+}
+.grid-formulario-campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+.form-grupo.full-width {
+    grid-column: span 2;
+}
+.perfil-form-footer {
+    margin-top: 25px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+@media (max-width: 992px) {
+    .grid-perfil-layout {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 576px) {
+    .grid-formulario-campos {
+        grid-template-columns: 1fr;
+    }
+    .form-grupo.full-width {
+        grid-column: span 1;
+    }
+    .flex-header-perfil {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .perfil-ficha-badge {
+        align-items: flex-start;
+    }
+}
+</style>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

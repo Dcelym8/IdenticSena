@@ -1,0 +1,154 @@
+{% extends 'usuarios/base_instructor.html' %}
+
+{% block titulo %}
+Dashboard Instructor
+{% endblock %}
+
+{% block encabezado %}
+Panel del Instructor
+{% endblock %}
+
+{% block contenido %}
+
+<!-- FICHAS -->
+
+<div class="dash-card">
+
+    <div class="dash-card-header">
+
+        <h2 class="dash-card-titulo">
+
+            Mis fichas asignadas
+
+        </h2>
+
+        <a href="{% url 'instructor_fichas' %}" class="dash-btn dash-btn--verde">
+
+            Ver todas
+
+        </a>
+
+    </div>
+
+    <table class="dash-tabla">
+
+        <thead>
+
+            <tr>
+
+                <th>Ficha</th>
+                <th>Programa</th>
+                <th>Jornada</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for item in fichas %}
+
+            <tr>
+
+                <td>{{ item.ficha.codigo }}</td>
+
+                <td>{{ item.ficha.programa }}</td>
+
+                <td>{{ item.ficha.jornada }}</td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="3" class="dash-tabla-vacio">
+
+                    No tienes fichas asignadas.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+
+
+<!-- AULAS -->
+
+<div class="dash-card">
+
+    <div class="dash-card-header">
+
+        <h2 class="dash-card-titulo">
+
+            Mis aulas
+
+        </h2>
+
+        <a href="{% url 'instructor_aulas' %}" class="dash-btn dash-btn--verde">
+
+            Gestionar
+
+        </a>
+
+    </div>
+
+    <table class="dash-tabla">
+
+        <thead>
+
+            <tr>
+
+                <th>Nombre</th>
+                <th>Bloque</th>
+                <th>Capacidad</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for aula in aulas %}
+
+            <tr>
+
+                <td>{{ aula.nombre }}</td>
+
+                <td>{{ aula.bloque }}</td>
+
+                <td>{{ aula.capacidad }}</td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="3" class="dash-tabla-vacio">
+
+                    No has creado aulas.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+{% endblock %}

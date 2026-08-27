@@ -1,0 +1,275 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio — Identic SENA</title>
+
+    <link rel="stylesheet" href="{% static 'css/mainConfig.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+    
+    </style>
+</head>
+
+<body>
+
+    <div class="dash-layout">
+
+
+        <aside class="dash-sidebar">
+            <div class="dash-brand">
+                <img src="{% static 'img/identic_sena 2-largo.png' %}" alt="Identic SENA" class="dash-logo">
+            </div>
+
+            <nav class="dash-nav">
+                <a href="{% url 'inicio' %}" class="dash-nav-item dash-nav-item--activo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                    </svg>
+                    Inicio
+                </a>
+
+                <a href="{% url 'perfil' %}" class="dash-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    Mi Perfil
+                </a>
+
+                <a href="{% url 'gestionar_equipos' %}" class="dash-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                    Mis Equipos
+                </a>
+            </nav>
+
+            <div class="dash-sidebar-footer">
+                <div class="dash-user-info">
+                    <div class="dash-avatar">{{ user.nombre|first|upper }}{{ user.apellido|first|upper }}</div>
+                    <div>
+                        <div class="dash-user-nombre">{{ user.nombre }} {{ user.apellido }}</div>
+                        <div class="dash-user-rol">{{ user.email }}</div>
+                    </div>
+                </div>
+                <a href="{% url 'logout' %}" class="dash-logout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    Cerrar sesión
+                </a>
+            </div>
+        </aside>
+
+        <div class="dash-main">
+            <header class="dash-topbar" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 class="dash-topbar-titulo">Inicio</h1>
+                    <span class="dash-topbar-sub">Centro de Servicios Financieros — SENA</span>
+                </div>
+
+
+                <div class="perfil-ficha-badge">
+                    <span class="ficha-label">FICHA</span>
+                    {% if user.fichas.exists %}
+                    <span class="ficha-valor" style="color: #00875a;">{{ user.fichas.first.codigo }}</span>
+                    {% else %}
+                    <span class="ficha-valor ficha-valor--vacio">Sin asignar</span>
+                    {% endif %}
+                </div>
+            </header>
+
+            <main class="dash-contenido">
+
+                <div class="inicio-wrapper">
+
+                    <div class="inicio-bienvenida-card">
+                        <h2 class="inicio-saludo">
+                            Bienvenido, <span class="destaque-verde">{{ user.get_rol_display|default:'Usuario' }}</span>
+                            {{ user.nombre|default:'' }} {{ user.apellido|default:'' }}
+                        </h2>
+                        <p class="inicio-subtexto">Gestione su código de acceso para el ingreso de equipos a las
+                            instalaciones.</p>
+                    </div>
+
+
+                    <div class="dash-card qr-card-dashboard inicio-qr-card">
+                        <h3 class="qr-titulo-dashboard">Mi Pase de Acceso</h3>
+                        <p class="qr-subtitulo-dashboard">Presente este código QR digital en la portería para validar su
+                            ingreso con equipos.</p>
+
+                        <div class="qr-contenedor-flex">
+                            <div id="codigo-qr-contenedor"></div>
+                        </div>
+
+                        <div id="contenedor-qr-btn">
+                            <button type="button" id="btn-qr" class="dash-btn dash-btn--verde" style="width: 100%;">
+                                Generar QR
+                            </button>
+
+                            <div id="cronometro-box" class="cronometro-box" style="display: none;">
+                                <svg class="icono-cronometro" viewBox="0 0 100 100" width="24" height="24">
+                                    <circle cx="50" cy="55" r="35" stroke="currentColor" stroke-width="6" fill="none" />
+                                    <path d="M 50,55 L 50,32 M 50,55 L 68,55" stroke="currentColor" stroke-width="5"
+                                        stroke-linecap="round" />
+                                </svg>
+                                <span id="tiempo-restante" class="tiempo-texto">05:00</span>
+                            </div>
+                        </div>
+
+                        <p class="qr-nota-seguridad">
+                            Este código expira por seguridad y contiene la marca de tiempo de su sesión actual.
+                        </p>
+
+                        <div class="qr-subtitulo-dashboard">
+                            <br>
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLScEWdO8iwB8CW5hqTgOmUtaYtBolJzJK1br0WZXAhhYAW4C7A/viewform?embedded=true" style="color:#157c65; text-decoration: none;">
+                                ¡Calificanos!
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- QR y temporizador -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contenedorQR = document.getElementById("codigo-qr-contenedor");
+            const btnAccion = document.getElementById('btn-qr');
+            const cronometroBox = document.getElementById('cronometro-box');
+            const tiempoRestanteTxt = document.getElementById('tiempo-restante');
+
+            let temporizadorInterval = null;
+            let verificacionInterval = null;
+            let tokenActualId = null;
+
+            function generarImagenQR(token) {
+                if (token && contenedorQR) {
+                    contenedorQR.innerHTML = "";
+                    new QRCode(contenedorQR, {
+                        text: token,
+                        width: 170,
+                        height: 170,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                }
+            }
+
+            function limpiarPantallaQR() {
+                clearInterval(temporizadorInterval);
+                clearInterval(verificacionInterval);
+                tokenActualId = null;
+
+                if (contenedorQR) contenedorQR.innerHTML = "";
+                if (cronometroBox) cronometroBox.style.display = 'none';
+                if (btnAccion) {
+                    btnAccion.style.display = 'block';
+                    btnAccion.textContent = 'Generar Nuevo QR';
+                }
+                sessionStorage.removeItem('qr_activo');
+            }
+
+            function iniciarConteo(expiraEnTimestamp) {
+                btnAccion.style.display = 'none';
+                cronometroBox.style.display = 'flex';
+
+                function actualizarTexto() {
+                    const restante = expiraEnTimestamp - Date.now();
+
+                    if (restante <= 0) {
+                        limpiarPantallaQR();
+                    } else {
+                        const minutos = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
+                        const segundos = Math.floor((restante % (1000 * 60)) / 1000);
+
+                        const minStr = minutos < 10 ? `0${minutos}` : minutos;
+                        const segStr = segundos < 10 ? `0${segundos}` : segundos;
+
+                        if (tiempoRestanteTxt) {
+                            tiempoRestanteTxt.textContent = `${minStr}:${segStr}`;
+                        }
+                    }
+                }
+
+                actualizarTexto();
+                clearInterval(temporizadorInterval);
+                temporizadorInterval = setInterval(actualizarTexto, 1000);
+            }
+
+            // Consulta en segundo plano si el vigilante ya escaneó el token
+            function monitorearUsoQR(tokenId) {
+                clearInterval(verificacionInterval);
+                verificacionInterval = setInterval(() => {
+                    fetch(`/api/estado-qr/${tokenId}/`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.usado) {
+                                alert("¡Acceso registrado correctamente!");
+                                limpiarPantallaQR();
+                            }
+                        })
+                        .catch(err => console.error("Error al consultar estado del QR:", err));
+                }, 2000); // Consulta cada 2 segundos
+            }
+
+            // Petición AJAX para generar un nuevo Token en Backend
+            if (btnAccion) {
+                btnAccion.addEventListener('click', () => {
+                    btnAccion.disabled = true;
+                    btnAccion.textContent = 'Generando...';
+
+                    fetch("{% url 'generar_token_qr' %}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            btnAccion.disabled = false;
+                            if (data.success) {
+                                tokenActualId = data.token_id;
+                                const expiraEn = Date.now() + (data.duracion_segundos * 1000);
+
+                                generarImagenQR(data.token_id);
+                                iniciarConteo(expiraEn);
+                                monitorearUsoQR(data.token_id);
+                            } else {
+                                alert(data.mensaje || 'Error al generar el QR');
+                                limpiarPantallaQR();
+                            }
+                        })
+                        .catch(error => {
+                            btnAccion.disabled = false;
+                            console.error('Error:', error);
+                            limpiarPantallaQR();
+                        });
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

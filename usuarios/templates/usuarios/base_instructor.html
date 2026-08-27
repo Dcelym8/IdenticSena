@@ -1,0 +1,156 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block titulo %}
+        Instructor | Identic SENA
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'css/mainConfig.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+</head>
+
+<body>
+
+    <div class="dash-layout">
+
+        <!-- SIDEBAR -->
+
+        <aside class="dash-sidebar">
+
+            <div class="dash-brand">
+                <img src="{% static 'img/identic_sena 2-largo.png' %}" class="dash-logo" alt="Identic SENA">
+            </div>
+
+            <nav class="dash-nav">
+
+                <!-- Panel principal (Inicio) -->
+                <a href="{% url 'dashboard_instructor' %}"
+                    class="dash-nav-item {% if request.resolver_match.url_name == 'panel_instructor' %}dash-nav-item--activo{% endif %}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                    </svg>
+                    <span>Inicio</span>
+                </a>
+
+                <!-- Mis Fichas (Se mantiene activo en subrutas de fichas) -->
+                <a href="{% url 'instructor_fichas' %}"
+                    class="dash-nav-item {% if 'fichas' in request.path or request.resolver_match.url_name == 'instructor_fichas' %}dash-nav-item--activo{% endif %}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16v16H4z" />
+                        <path d="M8 8h8" />
+                        <path d="M8 12h8" />
+                        <path d="M8 16h5" />
+                    </svg>
+                    Mis fichas
+                </a>
+
+                <!-- Mis Aulas (Se mantiene activo en subrutas de aulas) -->
+                <a href="{% url 'instructor_aulas' %}"
+                    class="dash-nav-item {% if 'aulas' in request.path and 'ficha' not in request.path %}dash-nav-item--activo{% endif %}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 21h18" />
+                        <path d="M5 21V7l7-4 7 4v14" />
+                        <path d="M9 21v-6h6v6" />
+                    </svg>
+                    Mis aulas
+                </a>
+
+            </nav>
+
+            <div class="dash-sidebar-footer">
+                <div class="dash-user-info">
+                    <div class="dash-avatar">
+                        {{ request.user.nombre|first|upper }}{{ request.user.apellido|first|upper }}
+                    </div>
+                    <div>
+                        <div class="dash-user-nombre">
+                            {{ request.user.nombre }}
+                            {{ request.user.apellido }}
+                        </div>
+                        <div class="dash-user-rol">
+                            {{ request.user.get_rol_display }}
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{% url 'logout' %}" class="dash-logout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    Cerrar sesión
+                </a>
+            </div>
+
+        </aside>
+
+
+
+        <!-- CONTENIDO -->
+
+        <div class="dash-main">
+
+            <header class="dash-topbar">
+
+                <h1 class="dash-topbar-titulo">
+
+                    {% block encabezado %}
+                    Panel del Instructor
+                    {% endblock %}
+
+                </h1>
+
+                <span class="dash-topbar-sub">
+
+                    Centro de Servicios Financieros — SENA
+
+                </span>
+
+            </header>
+
+            {% if messages %}
+
+            <div class="dash-mensajes">
+
+                {% for msg in messages %}
+
+                <div class="alert alert--{{ msg.tags }}">
+
+                    {{ msg }}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+            <main class="dash-contenido">
+
+                {% block contenido %}
+
+                {% endblock %}
+
+            </main>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

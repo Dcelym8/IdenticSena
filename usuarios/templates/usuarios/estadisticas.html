@@ -1,0 +1,369 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas — Identic SENA</title>
+    <link rel="stylesheet" href="{% static 'css/mainConfig.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+
+<body>
+
+    <div class="dash-layout">
+
+        <aside class="dash-sidebar">
+            <div class="dash-brand">
+                <img src="{% static 'img/identic_sena 2-largo.png' %}" class="dash-logo" alt="Identic SENA">
+            </div>
+
+            <nav class="dash-nav">
+                <a href="{% url 'dashboard' %}" class="dash-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                    </svg>
+                    Inicio
+                </a>
+
+                <a href="{% url 'dashboard_usuarios' %}" class="dash-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    Usuarios
+                </a>
+
+                <a href="{% url 'dashboard_permisos' %}" class="dash-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    Permisos
+                </a>
+
+                <a href="{% url 'dashboard_fichas' %}" class="dash-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16v16H4z" />
+                        <path d="M8 8h8" />
+                        <path d="M8 12h8" />
+                        <path d="M8 16h5" />
+                    </svg>
+                    Fichas
+                </a>
+
+                <a href="{% url 'dashboard_asignar_fichas' %}" class="dash-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 12a5 5 0 1 0-5-5" />
+                        <path d="M3 21a9 9 0 0 1 18 0" />
+                    </svg>
+                    Asignar fichas
+                </a>
+
+                
+                <!-- AULAS -->
+                <a href="{% url 'dashboard_aulas_admin' %}" class="dash-nav-item">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+
+                        <path d="M3 9h18" />
+
+                        <path d="M9 21V9" />
+
+                    </svg>
+
+                    Aulas
+
+                </a>
+
+
+                <!-- FICHA - AULA -->
+                <a href="{% url 'dashboard_ficha_aula_admin' %}" class="dash-nav-item">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+                        <rect x="3" y="4" width="18" height="16" rx="2" />
+
+                        <path d="M7 8h10" />
+
+                        <path d="M7 12h10" />
+
+                        <path d="M7 16h6" />
+
+                    </svg>
+
+                    Ficha - Aula
+
+                </a>
+
+                <a href="{% url 'estadisticas' %}" class="dash-nav-item dash-nav-item--activo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M18 20V10" />
+                        <path d="M12 20V4" />
+                        <path d="M6 20V14" />
+                    </svg>
+                    Estadísticas
+                </a>
+            </nav>
+
+            <div class="dash-sidebar-footer">
+                <div class="dash-user-info">
+                    <div class="dash-avatar">
+                        {{ request.user.nombre|first|upper }}{{ request.user.apellido|first|upper }}
+                    </div>
+                    <div>
+                        <div class="dash-user-nombre">
+                            {{ request.user.nombre }} {{ request.user.apellido }}
+                        </div>
+                        <div class="dash-user-rol">
+                            {{ request.user.get_rol_display }}
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{% url 'logout' %}" class="dash-logout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    Cerrar sesión
+                </a>
+            </div>
+        </aside>
+
+        <div class="dash-main">
+            <header class="dash-topbar">
+                <h1 class="dash-topbar-titulo">Panel de Estadísticas</h1>
+                <span class="dash-topbar-sub">Centro de Servicios Financieros — SENA</span>
+            </header>
+
+            <main class="dash-contenido">
+                <!-- STATS CARDS -->
+                <!-- REGISTROS DE INGRESO RECIENTES -->
+                <section class="dash-card">
+                    <div class="dash-card-header">
+                        <h2 class="dash-card-titulo">Registros de Ingreso Recientes</h2>
+                    </div>
+                    <div class="dash-card-body">
+                        <!-- Campo de búsqueda -->
+                        <div style="margin-bottom: 16px;">
+                            <input type="text" id="inputBuscador" onkeyup="filtrarTabla()"
+                                placeholder="Buscar por nombre, documento, correo, ficha..."
+                                style="width: 100%; padding: 10px 14px; border: 1px solid #d4ece0; border-radius: 8px; outline: none; font-size: 0.9rem;">
+                        </div>
+
+                        <table class="dash-tabla" id="tablaRegistros">
+                            <thead>
+                                <tr>
+                                    <th>Nombre/Documento</th>
+                                    <th>Correo</th>
+                                    <th>Ficha</th>
+                                    <th>Aula / Ambiente</th>
+                                    <th>Entrada / Salida</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for registro in registros_recientes %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ registro.usuario.nombre }} {{ registro.usuario.apellido }}</strong>
+                                        <br>
+                                        <small style="color: #6c757d;">{{ registro.usuario.numeroDocumento }}</small>
+                                    </td>
+
+                                    <td>
+                                        <div class="dash-user-cell">
+                                            <span>{{registro.usuario.get_full_name|default:registro.usuario.username}}</span>
+                                            <small
+                                                class="dash-muted">({{registro.usuario.rol|default:"N/A"|capfirst}})</small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if registro.usuario.fichas.exists %}
+                                        <small class="dash-muted">{{ registro.usuario.fichas.first.codigo }}</small>
+                                        {% else %}
+                                        <span class="dash-muted">Sin ficha</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if registro.usuario.fichas.exists and registro.usuario.fichas.first.fichaaula_set.exists %}
+                                        <small class="dash-muted">{{registro.usuario.fichas.first.fichaaula_set.first.aula.nombre}}</small>
+                                        {% else %}
+                                        <span class="dash-muted">Sin aula</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small class="dash-muted">{{ registro.hora_entrada|date:"h:i A" }} </small>
+                                        {% if registro.hora_salida %}
+                                        <small class="dash-muted">- {{ registro.hora_salida|date:"h:i A" }}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if registro.hora_salida %}
+                                        <span class="dash-badge dash-badge--activo">Completo</span>
+                                        {% else %}
+                                        <span class="dash-badge dash-badge--vigilante">En sede</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="dash-tabla-vacio">No hay registros de ingreso recientes hoy.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <div class="card-equipos">
+                    <h3>Equipos Registrados</h3>
+
+                    <table class="tabla-equipos">
+                        <thead>
+                            <tr>
+                                <th>Equipo / Serial</th>
+                                <th>Persona Asociada</th>
+                                <th>Rol</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for equipo in equipos_registrados %}
+                            <tr>
+                                <!-- Nombre/Tipo del Equipo y Serial -->
+                                <td>
+                                    <strong>{{ equipo.tipo_equipo|default:"Portátil" }} {{ equipo.marca }}</strong>
+                                    <br>
+                                    <span class="badge-serial">S/N: {{ equipo.serial }}</span>
+                                </td>
+
+                                <!-- Usuario Propietario/Asociado -->
+                                <td>
+                                    <strong>{{ equipo.estudiante.nombre }} {{ equipo.estudiante.apellido }}</strong>
+                                    <br>
+                                    <small class="badge badge-serial">Documento: {{equipo.estudiante.numeroDocumento}}</small>
+                                </td>
+
+                                <!-- Rol del Usuario en la Plataforma -->
+                                <td>
+                                    {{ equipo.usuario.rol|title|default:"Aprendiz" }}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #57606a;">
+                                    No hay equipos registrados en el sistema.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- RESUMEN DIARIO -->
+                <section class="dash-card">
+                    <div class="dash-card-header">
+                        <h2 class="dash-card-titulo">Resumen Diario (<span>{{ periodo_solicitado }}</span>)</h2>
+                    </div>
+                    <div class="dash-card-body">
+                        <table class="dash-tabla">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;">#</th>
+                                    <th>Rol</th>
+                                    <th>Asistieron / Total</th>
+                                    <th style="width: 70px;">%</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rol, datos in datos_asistencia.items %}
+                                {# El IF debe envolver a toda la fila <tr> #}
+                                    {% if rol != "admin" and rol != "instructor" and rol != "vigilante" %}
+                                <tr>
+                                    <td>{{ forloop.counter }}.</td>
+                                    <td style="text-transform: capitalize; font-weight: 600;">{{ rol }}</td>
+                                    <td>
+                                        <div class="progress-container">
+                                            <span class="progress-text">{{ datos.asistieron_hoy }} / {{ datos.total_rol}}</span>
+                                            <div class="progress-bar-bg">
+                                                <div class="progress-bar-fill fill-{{ rol }}"
+                                                    style="--porcentaje: {{ datos.porcentaje }}%; width: var(--porcentaje);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="dash-badge dash-badge--activo">{{ datos.porcentaje }}%</span>
+                                    </td>
+                                </tr>
+                                {% endif %} {# Cerramos el IF dentro del ciclo #}
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="dash-tabla-vacio">Sin datos de asistencia hoy.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                </section>
+                <a href="{% url 'exportar_asistencia_csv' %}" class="dash-btn-excel" style="
+    background-color: #00875A;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+">
+    <!-- Ícono SVG opcional de Excel/Descarga -->
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+    </svg>
+    Exportar a CSV
+</a>
+            </main>
+
+        </div>
+
+</body>
+<script>
+    function filtrarTabla() {
+        const input = document.getElementById("inputBuscador");
+        const filtro = input.value.toLowerCase();
+        const tabla = document.getElementById("tablaRegistros");
+        const filas = tabla.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+        for (let i = 0; i < filas.length; i++) {
+            // Ignorar la fila si es el mensaje de "No hay registros"
+            if (filas[i].classList.contains("dash-tabla-vacio") || filas[i].cells.length === 1) {
+                continue;
+            }
+
+            const textoFila = filas[i].textContent || filas[i].innerText;
+
+            if (textoFila.toLowerCase().indexOf(filtro) > -1) {
+                filas[i].style.display = "";
+            } else {
+                filas[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Equipos — Identic SENA</title>
+    <link rel="stylesheet" href="{% static 'css/mainConfig.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="dash-layout">
+
+    <aside class="dash-sidebar">
+        <div class="dash-brand">
+            <img src="{% static 'img/identic_sena 2-largo.png' %}" alt="Identic SENA" class="dash-logo">
+        </div>
+
+        <nav class="dash-nav">
+            <a href="{% url 'inicio' %}" class="dash-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                </svg>
+                Inicio
+            </a>
+            <a href="{% url 'perfil' %}" class="dash-nav-item dash-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Mi Perfil
+            </a>
+            <a href="{% url 'gestionar_equipos' %}" class="dash-nav-item dash-nav-item--activo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                Mis Equipos
+            </a>
+        </nav>
+
+                <div class="dash-sidebar-footer">
+            <div class="dash-user-info">
+                <div class="dash-avatar">{{ user.nombre|first|upper }}{{ user.apellido|first|upper }}</div>
+                <div>
+                    <div class="dash-user-nombre">{{ user.nombre }} {{ user.apellido }}</div>
+                    <div class="dash-user-rol">{{ user.email }}</div>
+                </div>
+            </div>
+            <a href="{% url 'logout' %}" class="dash-logout">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Cerrar sesión
+            </a>
+        </div>
+    </aside>
+
+    <div class="dash-main">
+        <header class="dash-topbar">
+            <h1 class="dash-topbar-titulo">Control de Dispositivos</h1>
+            <span class="dash-topbar-sub">Centro de Servicios Financieros — SENA</span>
+        </header>
+
+        <main class="dash-contenido p-4">
+            <div class="row">
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-primary text-white py-3">
+                            <h5 class="mb-0 fw-bold text-white">Registrar Equipo</h5>
+                        </div>
+                        <div class="card-body p-4">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold text-dark">Nombre del Dispositivo</label>
+                                    <input type="text" name="nombre" class="form-control" placeholder="Ej: Portatil" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold text-dark">Marca</label>
+                                    <input type="text" name="marca" class="form-control" placeholder="Ej: Lenovo, HP, Asus" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold text-dark">Número de Serial</label>
+                                    <input type="text" name="serial" class="form-control" placeholder="Ingrese el serial único" required>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100 py-2 fw-bold shadow-sm mt-2">Registrar Equipo</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-dark text-white py-3">
+                            <h5 class="mb-0 fw-bold text-white">Mis Equipos Registrados</h5>
+                        </div>
+                        <div class="card-body p-4">
+                            {% if equipos %}
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Marca</th>
+                                                <th>Serial</th>
+                                                <th class="text-center">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for equipo in equipos %}
+                                                <tr>
+                                                    <td class="fw-semibold">{{ equipo.nombre }}</td>
+                                                    <td>{{ equipo.marca }}</td>
+                                                    <td><span class="badge bg-secondary px-2 py-1">{{ equipo.serial }}</span></td>
+                                                    <td class="text-center">
+                                                        <a href="{% url 'eliminar_equipo' equipo.id %}" class="btn btn-danger btn-sm px-3" onclick="return confirm('¿Seguro que deseas eliminar este equipo?');">
+                                                            Borrar
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="text-center my-4 py-4">
+                                    <p class="text-muted fs-5 mb-0">No tienes ningún equipo registrado aún.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

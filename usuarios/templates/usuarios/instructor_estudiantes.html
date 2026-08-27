@@ -1,0 +1,127 @@
+{% extends 'usuarios/base_instructor.html' %}
+
+{% block titulo %}
+Estudiantes
+{% endblock %}
+
+{% block encabezado %}
+Aprendices de la ficha {{ ficha.codigo }}
+{% endblock %}
+
+{% block contenido %}
+
+<!-- Tarjetas de Resumen de Asistencia -->
+{% if datos_asistencia %}
+<div class="dash-grid-stats"
+    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+    <div class="dash-card" style="padding: 1rem;">
+        <small class="dash-muted">Total Aprendices</small>
+        <h3 style="margin: 0.5rem 0 0 0;">{{ datos_asistencia.aprendiz.total_rol }}</h3>
+    </div>
+    <div class="dash-card" style="padding: 1rem;">
+        <small class="dash-muted">Asistieron Hoy</small>
+        <h3 style="margin: 0.5rem 0 0 0;">{{ datos_asistencia.aprendiz.asistieron_hoy }}</h3>
+    </div>
+    <div class="dash-card" style="padding: 1rem;">
+        <small class="dash-muted">% Asistencia</small>
+        <h3 style="margin: 0.5rem 0 0 0;">{{ datos_asistencia.aprendiz.porcentaje }}%</h3>
+    </div>
+</div>
+{% endif %}
+
+<div class="dash-card">
+
+    <div class="dash-card-header">
+        <div>
+            <h2 class="dash-card-titulo">
+                Ficha {{ ficha.codigo }}
+            </h2>
+            <small>
+                {{ ficha.programa }}
+            </small>
+        </div>
+        <a href="{% url 'instructor_fichas' %}" class="dash-btn dash-btn--outline">
+            ← Volver
+        </a>
+    </div>
+
+    <table class="dash-tabla">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Ficha</th>
+                <th>Entrada / Salida</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for estudiante in estudiantes %}
+            <tr>
+                <td>
+                    {{ estudiante.nombre }} {{ estudiante.apellido }}
+                </td>
+
+                <td>
+                    {{ estudiante.numeroDocumento }}
+                </td>
+
+                <td>
+                    {{ estudiante.email }}
+                </td>
+
+                <td>
+                    {{ estudiante.telefono|default:"—" }}
+                </td>
+
+                <td>
+                    {{ ficha.codigo }}
+                </td>
+
+                <td>
+                    {% with ultimo=estudiante.asistencias.last %}
+                    {% if ultimo %}
+                    <small class="dash-muted">{{ ultimo.hora_entrada|date:"h:i A" }}</small>
+                    {% if ultimo.hora_salida %}
+                    <small class="dash-muted">- {{ ultimo.hora_salida|date:"h:i A" }}</small>
+                    {% endif %}
+                    {% else %}
+                    <small class="dash-muted">Sin registro</small>
+                    {% endif %}
+                    {% endwith %}
+                </td>
+
+                <!-- Estado -->
+                 
+                <td>
+                    {% with ultimo=estudiante.asistencias.last %}
+                    {% if ultimo %}
+                    {% if ultimo.hora_salida %}
+                    <span class="dash-badge dash-badge--activo">Completo</span>
+                    {% else %}
+                    <span class="dash-badge dash-badge--vigilante">En sede</span>
+                    {% endif %}
+                    {% else %}
+                    <span class="dash-badge dash-badge--inactivo">Sin ingreso</span>
+                    {% endif %}
+                    {% endwith %}
+                </td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="7" class="dash-tabla-vacio">
+                    Esta ficha no tiene aprendices registrados.
+                </td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

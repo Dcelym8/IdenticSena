@@ -1,0 +1,202 @@
+{% extends 'usuarios/base_instructor.html' %}
+{% load static %}
+
+{% block titulo %}
+Aulas — Identic SENA
+{% endblock %}
+
+{% block encabezado %}
+Gestión de aulas
+{% endblock %}
+
+{% block contenido %}
+
+<div class="dash-card">
+
+    <div class="dash-card-header flex-header">
+
+        <h2 class="dash-card-titulo">
+            Mis aulas
+        </h2>
+
+        <button type="button" class="dash-btn dash-btn--verde" onclick="abrirModalCrear(event)">
+            +
+            Nueva aula
+        </button>
+
+    </div>
+
+    <table class="dash-tabla">
+
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Bloque</th>
+                <th>Capacidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for aula in aulas %}
+
+            <tr id="aula-row-{{ aula.id }}" data-nombre="{{ aula.nombre }}"
+                data-bloque="{{ aula.bloque }}" data-capacidad="{{ aula.capacidad }}">
+
+                <td>{{ aula.nombre }}</td>
+                <td>{{ aula.bloque }}</td>
+                <td>{{ aula.capacidad }}</td>
+
+                <td>
+                    <div class="dash-acciones">
+
+                        <button class="dash-btn dash-btn--sm dash-btn--outline"
+                            onclick="abrirModalEditar(event,'{{ aula.id }}')">
+                            Editar
+                        </button>
+
+                        <form method="POST" action="{% url 'eliminar_aula' aula.id %}">
+                            {% csrf_token %}
+                            <button class="dash-btn dash-btn--sm dash-btn--peligro">
+                                Eliminar
+                            </button>
+                        </form>
+
+                    </div>
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="4" class="dash-tabla-vacio">
+                    No tienes aulas creadas.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div class="modal-overlay" id="modalAula" style="display:none !important;">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <h3 class="modal-titulo" id="tituloModal">Nueva aula</h3>
+            <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <form method="POST" id="formAula" action="{% url 'crear_aula' %}">
+                {% csrf_token %}
+
+                <div class="form-grupo">
+                    <label class="form-label">Nombre del aula</label>
+                    <input class="dash-input" name="nombre" id="inputNombre" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label">Bloque</label>
+                    <input class="dash-input" name="bloque" id="inputBloque" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label">Capacidad</label>
+                    <input type="number" class="dash-input" name="capacidad" id="inputCapacidad" required>
+                </div>
+
+                <div class="modal-footer-container">
+
+                    <button type="button" id="btnEliminar" class="dash-btn dash-btn--peligro" onclick="eliminarAula()">
+                        Eliminar
+                    </button>
+
+                    <div class="modal-acciones-derecha">
+                        <button type="button" class="dash-btn dash-btn--outline" onclick="cerrarModal()">Cancelar</button>
+                        <button class="dash-btn dash-btn--verde">Guardar</button>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    let aulaActual = null;
+
+    function abrirModalCrear(e) {
+        e.preventDefault();
+        aulaActual = null;
+        document.getElementById("tituloModal").innerHTML = "Nueva aula";
+        document.getElementById("formAula").action = "{% url 'crear_aula' %}";
+        document.getElementById("btnEliminar").style.display = "none";
+        limpiar();
+        mostrar();
+    }
+
+    function abrirModalEditar(e, id) {
+        e.preventDefault();
+        aulaActual = id;
+        let fila = document.getElementById("aula-row-" + id);
+
+        document.getElementById("inputNombre").value = fila.dataset.nombre;
+        document.getElementById("inputBloque").value = fila.dataset.bloque;
+        document.getElementById("inputCapacidad").value = fila.dataset.capacidad;
+
+        document.getElementById("tituloModal").innerHTML = "Editar aula";
+        document.getElementById("formAula").action = "/usuarios/dashboard/aulas/" + id + "/editar/";
+        document.getElementById("btnEliminar").style.display = "block";
+
+        mostrar();
+    }
+
+    function mostrar() {
+        document.getElementById("modalAula").style.setProperty("display", "flex", "important");
+    }
+
+    function cerrarModal() {
+        document.getElementById("modalAula").style.setProperty("display", "none", "important");
+    }
+
+    function limpiar() {
+        document.getElementById("inputNombre").value = "";
+        document.getElementById("inputBloque").value = "";
+        document.getElementById("inputCapacidad").value = "";
+    }
+
+    function eliminarAula() {
+        if (aulaActual) {
+            if (confirm("¿Eliminar aula?")) {
+
+                let form = document.createElement("form");
+                form.method = "POST";
+                form.action = "/usuarios/dashboard/aulas/" + aulaActual + "/eliminar/";
+
+                let csrf = document.createElement("input");
+                csrf.type = "hidden";
+                csrf.name = "csrfmiddlewaretoken";
+                csrf.value = "{{ csrf_token }}";
+
+                form.appendChild(csrf);
+                document.body.appendChild(form);
+                form.submit();
+
+            }
+        }
+    }
+
+</script>
+
+{% endblock %}

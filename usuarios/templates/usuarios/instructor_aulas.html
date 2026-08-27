@@ -1,0 +1,75 @@
+{% extends 'usuarios/base_instructor.html' %}
+
+{% block titulo %}
+Mis Aulas
+{% endblock %}
+
+{% block encabezado %}
+Mis Aulas
+{% endblock %}
+
+{% block contenido %}
+
+<div class="dash-card">
+
+    <div class="dash-card-header">
+
+        <h2 class="dash-card-titulo">
+
+            Aulas creadas
+
+        </h2>
+
+
+    </div>
+
+    <table class="dash-tabla">
+
+        <thead>
+
+            <tr>
+
+                <th>Nombre</th>
+                <th>Bloque</th>
+                <th>Capacidad</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for aula in aulas %}
+
+            <tr>
+
+                <td>{{ aula.nombre }}</td>
+
+                <td>{{ aula.bloque }}</td>
+
+                <td>{{ aula.capacidad }}</td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="4"
+                    class="dash-tabla-vacio">
+
+                    No has creado aulas.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

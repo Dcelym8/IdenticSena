@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdenticSena</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<body>
+
+    <div class="logoContainer">
+        <img src="{% static 'img/identicSena.png' %}" alt="Logo" id="imageLogo">
+    </div>
+
+    <div class="formContainer">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-error">
+                {{ form.non_field_errors|striptags }}
+            </div>
+            {% endif %}
+
+            <div class="userContainer">
+                <label for="{{ form.username.id_for_label }}"></label>
+                <input name="{{form.username.html_name}}" id="{{ form.username.id_for_label }}" type="text" class="form-input" placeholder="Correo electrónico"
+                    required autofocus="autofocus">
+            </div>
+            <br>
+            <div class="passwordContainer">
+                <label for="{{form.password.id_for_label}}"></label>
+                <input name="{{form.password.html_name}}" id="{{ form.password.id_for_label }}" type="password" class="form-input" placeholder="Contraseña"
+                    required>
+            </div>
+            <div class="forgotpaswordContainer">
+                <svg viewBox="0 0 640 640" id="logoKey">
+                    <path
+                        d="M400 416C497.2 416 576 337.2 576 240C576 142.8 497.2 64 400 64C302.8 64 224 142.8 224 240C224 258.7 226.9 276.8 232.3 293.7L71 455C66.5 459.5 64 465.6 64 472L64 552C64 565.3 74.7 576 88 576L168 576C181.3 576 192 565.3 192 552L192 512L232 512C245.3 512 256 501.3 256 488L256 448L296 448C302.4 448 308.5 445.5 313 441L346.3 407.7C363.2 413.1 381.3 416 400 416zM440 160C462.1 160 480 177.9 480 200C480 222.1 462.1 240 440 240C417.9 240 400 222.1 400 200C400 177.9 417.9 160 440 160z" />
+                </svg>
+                <a href="olvidar_contraseña.html" id="forgotpasword"> Olvidé mi contraseña</a>
+            </div>
+            <br>
+            <div class="submitContainer">
+                <input type="submit" value="INGRESAR" id="submitButton">
+            </div>
+            <div id="orContainer">
+                <p>_______________<span id="orConector">O</span>_______________</p>
+            </div>
+            <div class="formFooterContainer">
+                <div class="noAcount">
+                    <p>¿No tienes cuenta?</p>
+                    <a href="{% url 'registro' %}" id="registro">Registrate</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

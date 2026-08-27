@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Estudiante</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+
+<body>
+    <div class="registro-container">
+        <h1 class="registro-titulo">Registro de Usuario</h1>
+
+        <form method="POST" novalidate>
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{form.tipoDocumento.id_for_label}}" class="form-label">Tipo de documento:</label>
+                <select name="{{form.tipoDocumento.html_name}}" id="{{form.tipoDocumento.id_for_label}}" required class="form-input">
+                    <option value="">Tipo de documento</option>
+                    <option value="cc">Cédula de ciudadanía</option>
+                    <option value="ti">Tarjeta de identidad</option>
+                    <option value="ce">Cédula de extranjería</option>
+                    <option value="pp">Pasaporte</option>
+                </select>
+                {% if form.tipoDocumento.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.tipoDocumento.errors|striptags }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{form.numeroDocumento.id_for_label}}" class="form-label">Número de documento:</label>
+                <input name="{{form.numeroDocumento.html_name}}" id="{{form.numeroDocumento.id_for_label}}"
+                    type="number" class="form-input" placeholder="Número de documento" required autofocus="autofocus">
+                {% if form.numeroDocumento.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.numeroDocumento.errors|striptags }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{form.nombre.id_for_label}}" class="form-label">Nombre:</label>
+                <input name="{{form.nombre.html_name}}" id="{{form.nombre.id_for_label}}" type="text" class="form-input"
+                    placeholder="Nombre" required>
+                {% if form.nombre.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.nombre.errors|striptags }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{form.apellido.id_for_label}}" class="form-label">Apellido:</label>
+                <input name="{{form.apellido.html_name}}" id="{{form.apellido.id_for_label}}" type="text"
+                    class="form-input" placeholder="Apellido" required>
+                {% if form.apellido.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.apellido.errors|striptags }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{form.edad.id_for_label}}" class="form-label">Edad:</label>
+                <input name="{{form.edad.html_name}}" id="{{form.edad.id_for_label}}" type="number" class="form-input"
+                    placeholder="Edad" required>
+                {% if form.edad.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.edad.errors|striptags }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{form.email.id_for_label}}" class="form-label">Correo electrónico:</label>
+                <input name="{{form.email.html_name}}" id="{{form.email.id_for_label}}" type="email" class="form-input"
+                    placeholder="Correo electrónico" required>
+                {% if form.email.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.email.errors|striptags }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{form.password1.id_for_label}}" class="form-label">Contraseña:</label>
+                <input name="{{form.password1.html_name}}" id="{{form.password1.id_for_label}}" type="password"
+                    class="form-input" placeholder="Contraseña" required>
+                {% if form.password1.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.password1.errors|striptags }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{form.password2.id_for_label}}" class="form-label">Confirmar contraseña:</label>
+                <input name="{{form.password2.html_name}}" id="{{form.password2.id_for_label}}" type="password"
+                    class="form-input" placeholder="Confirmar contraseña" required>
+                {% if form.password2.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.password2.errors|striptags }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{form.telefono.id_for_label}}" class="form-label">Teléfono:</label>
+                <input name="{{form.telefono.html_name}}" id="{{form.telefono.id_for_label}}" type="tel"
+                    class="form-input" placeholder="Teléfono" required>
+                {% if form.telefono.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.telefono.errors|striptags }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="boton">Registrarse!</button>
+            </div>
+
+            <p class="form-footer">¿Ya tienes una cuenta? <a href="{% url 'login' %}" class="form-link">Inicia
+                    sesión</a></p>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const pass = document.getElementById("{{form.password1.id_for_label}}").value;
+            const confirm = document.getElementById("{{form.password2.id_for_label}}").value;
+
+            if (pass !== confirm) {
+                e.preventDefault();
+                alert("Las contraseñas no coinciden");
+            }
+        });
+    </script>
+</body>
+
+</html>

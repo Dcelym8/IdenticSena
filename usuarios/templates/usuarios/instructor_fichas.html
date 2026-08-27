@@ -1,0 +1,97 @@
+{% extends 'usuarios/base_instructor.html' %}
+
+{% block titulo %}
+Mis Fichas
+{% endblock %}
+
+{% block encabezado %}
+Mis Fichas
+{% endblock %}
+
+{% block contenido %}
+
+<div class="dash-card">
+
+    <div class="dash-card-header">
+
+        <h2 class="dash-card-titulo">
+
+            Fichas asignadas
+
+        </h2>
+
+    </div>
+
+    <table class="dash-tabla">
+
+        <thead>
+
+            <tr>
+
+                <th>Código</th>
+                <th>Programa</th>
+                <th>Jornada</th>
+                <th>Acción</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for item in fichas %}
+
+            <tr>
+
+                <td>
+
+                    {{ item.ficha.codigo }}
+
+                </td>
+
+                <td>
+
+                    {{ item.ficha.programa }}
+
+                </td>
+
+                <td>
+
+                    {{ item.ficha.jornada }}
+
+                </td>
+
+                <td>
+
+                    <a href="{% url 'instructor_estudiantes' item.ficha.id %}"
+                        class="dash-btn dash-btn--verde dash-btn--sm">
+
+                        Ver estudiantes
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="4" class="dash-tabla-vacio">
+
+                    No tienes fichas asignadas.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}
