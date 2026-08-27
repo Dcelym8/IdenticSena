@@ -131,7 +131,7 @@ STATICFILES_DIRS = [
 ]
 
 # Usar el almacenamiento comprimido de WhiteNoise
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
 LOGIN_URL = 'login'
