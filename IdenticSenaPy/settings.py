@@ -25,7 +25,14 @@ SECRET_KEY = 'django-insecure-jtytkn7+cj68+q73n!z!=nrxn0ck0z5y5ujm4z*i3er11wyobt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://identicsena-1-2-1.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'identicsena-1-2-1.onrender.com',
+    '.onrender.com',
+    'identicsena.com',
+    'www.identicsena.com',
+    'localhost',
+    '127.0.0.1'
+]
 
 
 # Application definition
