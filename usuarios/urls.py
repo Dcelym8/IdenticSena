@@ -288,12 +288,6 @@ path('api/estado-qr/<str:token_id>/', views.consultar_estado_qr, name='consultar
     ),
 
     path(
-        'dashboard/instructor/ficha/<int:ficha_id>/estudiantes/', 
-        views.ver_estudiantes_instructor, 
-        name='instructor_estudiantes_ficha'
-    ),
-
-    path(
         'estadisticas/exportar-csv/', 
         views.exportar_asistencia_csv, 
         name='exportar_asistencia_csv'),
