@@ -6,11 +6,13 @@ body {
 
 .perfil-container {
     width: 650px;
+    max-width: 100%;
     margin: 50px auto;
     background: #ffffff;
     padding: 25px 30px;
     border-radius: 12px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    box-sizing: border-box;
 }
 
 .perfil-container h2 {
@@ -87,11 +89,22 @@ button:hover {
 
 @media (max-width: 700px) {
     .perfil-container {
-        width: 90%;
+        width: 92%;
+        margin: 25px auto;
+        padding: 20px;
     }
 
     .grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 400px) {
+    .perfil-container {
+        width: 100%;
+        margin: 0 auto;
+        border-radius: 0;
+        padding: 18px;
     }
 }
 

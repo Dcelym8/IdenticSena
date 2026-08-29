@@ -1,18 +1,22 @@
 @import url(mainConfig.css);
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f4f6f9;
-    margin: 50px;
-    padding: 0;
+    margin: 0;
+    padding: 30px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .registro-container {
-    margin-top: 50px;
+    margin-top: 0;
     background-color: #fff;
     padding: 40px 30px;
     border-radius: 10px;
@@ -110,4 +114,22 @@ body {
     color: #fff;
     background-color: var(--colorVerde);
     border-color: #146c43;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 20px 15px;
+    }
+
+    .registro-container {
+        padding: 28px 20px;
+    }
+
+    .registro-titulo {
+        font-size: 19px;
+    }
+
+    .form-input {
+        font-size: 16px;
+    }
 }

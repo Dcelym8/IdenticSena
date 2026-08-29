@@ -1,10 +1,15 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 20px 0;
     font-family: Arial, sans-serif;
     background-color: #ffffff;
 }
@@ -164,10 +169,15 @@ input[type="text"], input[type="password"] {
 @media (max-width: 480px) {
     .formContainer {
         padding: 20px;
+        width: 94%;
     }
-    
+
     #imageLogo {
         width: 180px;
+    }
+
+    input[type="text"], input[type="password"] {
+        font-size: 16px;
     }
 
     #orContainer {
@@ -181,6 +191,16 @@ input[type="text"], input[type="password"] {
 
     .formFooterContainer {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 360px) {
+    #imageLogo {
+        width: 140px;
+    }
+
+    .formContainer {
+        padding: 16px;
     }
 }
 
